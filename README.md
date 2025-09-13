@@ -21,7 +21,6 @@ A modern, full-featured URL shortening service built with Spring Boot and Thymel
 - **Spring Boot 3.3.0**: Framework for building the application.
 - **Spring Web**: For creating web endpoints.
 - **Spring Data JPA**: For database interaction.
-- **H2 Database**: In-memory database for local development and testing.
 - **Lombok**: To reduce boilerplate code.
 - **Maven**: For dependency management and building the project.
 
