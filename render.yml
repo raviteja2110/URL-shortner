@@ -10,4 +10,6 @@ services:
       - key: APP_BASE_URL
         fromSecret: true
       - key: MONGO_DB_URI
+        # This secret should contain the full MongoDB URI, including the database name.
+        # e.g., mongodb+srv://user:pass@cluster.mongodb.net/my-database?retryWrites=true...
         fromSecret: true
