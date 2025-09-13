@@ -1,4 +1,4 @@
-package https.github.com.raviteja2110.URL.shortner.util;
+package https.github.com.raviteja2110.url.shortner.util;
 
 public final class AppConstants {
 
@@ -23,6 +23,7 @@ public final class AppConstants {
     public static final String CLICK_COUNT_ATTR = "clickCount";
     public static final String UNIQUE_VISITORS_ATTR = "uniqueVisitors";
     public static final String COUNTRIES_ATTR = "countries";
+    public static final String QR_CODE_ATTR = "qrCodeImage";
 
     // URL Prefixes
     public static final String LOCAL_HOST_URL = "http://localhost:8080/";

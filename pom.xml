@@ -11,12 +11,22 @@
 	<groupId>com.github.raviteja2110</groupId>
 	<artifactId>url-shortner</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>URL-shortner</name>
+	<name>url-shortner</name>
 	<description>URL shortner App</description>
 	<properties>
 		<java.version>21</java.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
+			<version>3.5.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>javase</artifactId>
+			<version>3.5.3</version>
+		</dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>

@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <style>
         :root {
             --primary: #6366F1;
@@ -191,7 +190,7 @@
             color: var(--text-light);
         }
 
-        #qrcode {
+        #qrcode-container {
             display: flex;
             justify-content: center;
             margin-bottom: 1.5rem;
@@ -393,7 +392,10 @@
 
             <div class="qr-section">
                 <h3>QR Code for your link</h3>
-                <div id="qrcode"></div>
+                <div id="qrcode-container">
+                    <img th:if="${qrCodeImage}" id="qrCodeImage" th:src="@{${'data:image/png;base64,' + qrCodeImage}}" alt="QR Code for shortened URL" style="width: 200px; height: 200px; border-radius: 8px; background: white; padding: 10px;"/>
+                    <p th:if="${qrCodeImage.isEmpty()}">Could not generate QR Code.</p>
+                </div>
                 <button class="download-qr" id="downloadQR">
                     <i class="fas fa-download"></i> Download QR Code
                 </button>
@@ -443,29 +445,16 @@
 </div>
 
 <script>
-    // Generate QR Code
     document.addEventListener('DOMContentLoaded', function() {
         const shortUrl = document.getElementById('shortUrl').textContent;
-        const qrcode = new QRCode(document.getElementById("qrcode"), {
-            text: shortUrl,
-            width: 200,
-            height: 200,
-            colorDark: "#E5E7EB", // --text-light
-            colorLight: "#1F2937", // --bg-light
-            correctLevel: QRCode.CorrectLevel.H,
-        });
 
         // Copy to clipboard functionality
         const copyBtn = document.getElementById('copyBtn');
-        const toast = document.getElementById('toast');
-
         copyBtn.addEventListener('click', function() {
             navigator.clipboard.writeText(shortUrl).then(function() {
                 copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
                 copyBtn.classList.add('copied');
-
                 showToast('Copied to clipboard!');
-
                 setTimeout(function() {
                     copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy';
                     copyBtn.classList.remove('copied');
@@ -475,23 +464,24 @@
 
         // Download QR Code functionality
         document.getElementById('downloadQR').addEventListener('click', function() {
-            const canvas = document.querySelector('#qrcode canvas');
-            const link = document.createElement('a');
-            link.download = 'qrcode.png';
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-
-            showToast('QR Code downloaded!');
+            const qrImage = document.getElementById('qrCodeImage');
+            if (qrImage && qrImage.src) {
+                const link = document.createElement('a');
+                link.download = 'qrcode.png';
+                link.href = qrImage.src;
+                link.click();
+                showToast('QR Code downloaded!');
+            } else {
+                showToast('Could not download QR code.');
+            }
         });
     });
 
     function showToast(message) {
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
-
         toastMessage.textContent = message;
         toast.classList.add('show');
-
         setTimeout(function() {
             toast.classList.remove('show');
         }, 3000);
