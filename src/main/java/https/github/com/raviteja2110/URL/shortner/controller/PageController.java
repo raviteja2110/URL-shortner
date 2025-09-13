@@ -1,6 +1,7 @@
 package https.github.com.raviteja2110.url.shortner.controller;
 
 import com.google.zxing.WriterException;
+import https.github.com.raviteja2110.url.shortner.config.AppProperties;
 import https.github.com.raviteja2110.url.shortner.dto.UrlMapping;
 import https.github.com.raviteja2110.url.shortner.service.QrCodeService;
 import https.github.com.raviteja2110.url.shortner.service.UrlShortenerService;
@@ -22,10 +23,12 @@ public class PageController {
     private static final Logger logger = LoggerFactory.getLogger(PageController.class);
     private final UrlShortenerService urlShortenerService;
     private final QrCodeService qrCodeService;
+    private final AppProperties appProperties;
 
-    public PageController(UrlShortenerService urlShortenerService, QrCodeService qrCodeService) {
+    public PageController(UrlShortenerService urlShortenerService, QrCodeService qrCodeService, AppProperties appProperties) {
         this.urlShortenerService = urlShortenerService;
         this.qrCodeService = qrCodeService;
+        this.appProperties = appProperties;
     }
 
     /**
@@ -48,7 +51,7 @@ public class PageController {
     @GetMapping("/result")
     public String resultPage(@RequestParam String shortCode, Model model) {
         UrlMapping mapping = urlShortenerService.getMappingByShortCode(shortCode);
-        String shortUrl = AppConstants.LOCAL_HOST_URL + mapping.getShortCode();
+        String shortUrl = appProperties.getBaseUrl() + "/" + mapping.getShortCode();
 
         model.addAttribute(AppConstants.SHORT_URL_ATTR, shortUrl);
         model.addAttribute(AppConstants.LONG_URL_ATTR, mapping.getLongUrl());
