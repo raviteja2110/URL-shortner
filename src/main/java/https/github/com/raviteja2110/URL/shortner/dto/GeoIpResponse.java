@@ -1,4 +1,4 @@
-package https.github.com.raviteja2110.URL.shortner.dto;
+package https.github.com.raviteja2110.url.shortner.dto;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package https.github.com.raviteja2110.URL.shortner;
+package https.github.com.raviteja2110.url.shortner;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

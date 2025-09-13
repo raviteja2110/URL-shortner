@@ -1,4 +1,4 @@
-package https.github.com.raviteja2110.URL.shortner.exception;
+package https.github.com.raviteja2110.url.shortner.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

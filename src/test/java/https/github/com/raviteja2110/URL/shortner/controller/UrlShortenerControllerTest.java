@@ -1,6 +1,6 @@
-package https.github.com.raviteja2110.URL.shortner.controller;
+package https.github.com.raviteja2110.url.shortner.controller;
 
-import https.github.com.raviteja2110.URL.shortner.service.UrlShortenerService;
+import https.github.com.raviteja2110.url.shortner.service.UrlShortenerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(https.github.com.raviteja2110.URL.shortner.controller.UrlShortenerController.class)
+@WebMvcTest(https.github.com.raviteja2110.url.shortner.controller.UrlShortenerController.class)
 class UrlShortenerControllerTest {
 
     @Autowired

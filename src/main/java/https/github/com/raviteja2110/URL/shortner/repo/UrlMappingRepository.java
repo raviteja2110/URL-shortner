@@ -1,7 +1,7 @@
-package https.github.com.raviteja2110.URL.shortner.repo;
+package https.github.com.raviteja2110.url.shortner.repo;
 
 
-import https.github.com.raviteja2110.URL.shortner.dto.UrlMapping;
+import https.github.com.raviteja2110.url.shortner.dto.UrlMapping;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

@@ -1,6 +1,6 @@
-package https.github.com.raviteja2110.URL.shortner.advice;
+package https.github.com.raviteja2110.url.shortner.advice;
 
-import https.github.com.raviteja2110.URL.shortner.exception.UrlNotFoundException;
+import https.github.com.raviteja2110.url.shortner.exception.UrlNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,4 +1,4 @@
-package https.github.com.raviteja2110.URL.shortner.config;
+package https.github.com.raviteja2110.url.shortner.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

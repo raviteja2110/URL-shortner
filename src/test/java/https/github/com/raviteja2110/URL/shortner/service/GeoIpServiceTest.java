@@ -1,14 +1,17 @@
-package https.github.com.raviteja2110.URL.shortner.service;
+package https.github.com.raviteja2110.url.shortner.service;
 
-import https.github.com.raviteja2110.URL.shortner.dto.GeoIpResponse;
+import https.github.com.raviteja2110.url.shortner.dto.GeoIpResponse;
+import https.github.com.raviteja2110.url.shortner.util.AppConstants;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -18,42 +21,41 @@ class GeoIpServiceTest {
     private RestTemplate restTemplate;
 
     @InjectMocks
-    private https.github.com.raviteja2110.URL.shortner.service.GeoIpService geoIpService;
+    private https.github.com.raviteja2110.url.shortner.service.GeoIpService geoIpService;
 
     @Test
     void getCountry_success() {
-        GeoIpResponse geoIpResponse = new GeoIpResponse();
-        geoIpResponse.setStatus("success");
-        geoIpResponse.setCountryCode("US");
+        String ipAddress = "8.8.8.8";
+        GeoIpResponse mockResponse = new GeoIpResponse();
+        mockResponse.setStatus(AppConstants.API_SUCCESS_STATUS);
+        mockResponse.setCountryCode("US");
 
-        when(restTemplate.getForObject("http://ip-api.com/json/127.0.0.1", GeoIpResponse.class))
-                .thenReturn(geoIpResponse);
+        when(restTemplate.getForObject(AppConstants.GEO_IP_API_URL + ipAddress, GeoIpResponse.class))
+                .thenReturn(mockResponse);
 
-        String country = geoIpService.getCountry("127.0.0.1");
+        String country = geoIpService.getCountry(ipAddress);
 
         assertEquals("US", country);
     }
 
     @Test
     void getCountry_failure() {
-        GeoIpResponse geoIpResponse = new GeoIpResponse();
-        geoIpResponse.setStatus("fail");
+        String ipAddress = "127.0.0.1"; // private range IP will cause a 'fail' status
 
-        when(restTemplate.getForObject("http://ip-api.com/json/127.0.0.1", GeoIpResponse.class))
-                .thenReturn(geoIpResponse);
+        String country = geoIpService.getCountry(ipAddress);
 
-        String country = geoIpService.getCountry("127.0.0.1");
-
-        assertEquals("XX", country);
+        assertEquals(AppConstants.DEFAULT_COUNTRY_CODE, country);
     }
 
     @Test
     void getCountry_exception() {
-        when(restTemplate.getForObject("http://ip-api.com/json/127.0.0.1", GeoIpResponse.class))
-                .thenThrow(new RuntimeException("API is down"));
+        String ipAddress = "8.8.8.8";
+        // Simulate a network or API error
+        when(restTemplate.getForObject(AppConstants.GEO_IP_API_URL + ipAddress, GeoIpResponse.class))
+                .thenThrow(new RestClientException("API is down"));
 
-        String country = geoIpService.getCountry("127.0.0.1");
+        String country = geoIpService.getCountry(ipAddress);
 
-        assertEquals("XX", country);
+        assertEquals(AppConstants.DEFAULT_COUNTRY_CODE, country);
     }
 }

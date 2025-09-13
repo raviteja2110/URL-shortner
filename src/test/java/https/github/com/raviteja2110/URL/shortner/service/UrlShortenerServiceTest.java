@@ -1,9 +1,8 @@
-package https.github.com.raviteja2110.URL.shortner.service;
+package https.github.com.raviteja2110.url.shortner.service;
 
-
-import https.github.com.raviteja2110.URL.shortner.dto.UrlMapping;
-import https.github.com.raviteja2110.URL.shortner.exception.UrlNotFoundException;
-import https.github.com.raviteja2110.URL.shortner.repo.UrlMappingRepository;
+import https.github.com.raviteja2110.url.shortner.repo.UrlMappingRepository;
+import https.github.com.raviteja2110.url.shortner.dto.UrlMapping;
+import https.github.com.raviteja2110.url.shortner.exception.UrlNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,10 +23,10 @@ class UrlShortenerServiceTest {
     private UrlMappingRepository urlMappingRepository;
 
     @Mock
-    private https.github.com.raviteja2110.URL.shortner.service.GeoIpService geoIpService;
+    private https.github.com.raviteja2110.url.shortner.service.GeoIpService geoIpService;
 
     @InjectMocks
-    private https.github.com.raviteja2110.URL.shortner.service.UrlShortenerService urlShortenerService;
+    private https.github.com.raviteja2110.url.shortner.service.UrlShortenerService urlShortenerService;
 
     @Test
     void shortenUrl_existing() {

@@ -1,10 +1,9 @@
-package https.github.com.raviteja2110.URL.shortner.service;
+package https.github.com.raviteja2110.url.shortner.service;
 
-import https.github.com.raviteja2110.URL.shortner.dto.UrlMapping;
-import https.github.com.raviteja2110.URL.shortner.exception.UrlNotFoundException;
-import https.github.com.raviteja2110.URL.shortner.repo.UrlMappingRepository;
-
-import https.github.com.raviteja2110.URL.shortner.util.AppConstants;
+import https.github.com.raviteja2110.url.shortner.dto.UrlMapping;
+import https.github.com.raviteja2110.url.shortner.exception.UrlNotFoundException;
+import https.github.com.raviteja2110.url.shortner.repo.UrlMappingRepository;
+import https.github.com.raviteja2110.url.shortner.util.AppConstants;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
@@ -33,7 +32,7 @@ public class UrlShortenerService {
         // First, check if a mapping for this long URL already exists.
         List<UrlMapping> existingMappings = repository.findByLongUrl(longUrl);
         if (!existingMappings.isEmpty()) {
-            return existingMappings.get(0).getShortCode();
+            return existingMappings.getFirst().getShortCode();
         }
 
         String shortCode;
