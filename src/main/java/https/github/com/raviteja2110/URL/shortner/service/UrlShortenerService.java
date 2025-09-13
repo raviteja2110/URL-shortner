@@ -1,5 +1,6 @@
 package https.github.com.raviteja2110.url.shortner.service;
 
+import https.github.com.raviteja2110.url.shortner.config.AppProperties;
 import https.github.com.raviteja2110.url.shortner.dto.UrlMapping;
 import https.github.com.raviteja2110.url.shortner.exception.UrlNotFoundException;
 import https.github.com.raviteja2110.url.shortner.repo.UrlMappingRepository;
@@ -19,6 +20,7 @@ import java.util.List;
 public class UrlShortenerService {
     private final UrlMappingRepository repository;
     private final GeoIpService geoIpService;
+    private final AppProperties appProperties;
     private static final int SHORT_CODE_LENGTH = 6;
 
     /**
@@ -26,13 +28,13 @@ public class UrlShortenerService {
      * Otherwise, it generates a new short code, saves it, and returns it.
      *
      * @param longUrl The original long URL.
-     * @return The generated or existing short code.
+     * @return The full shortened URL.
      */
     public String shortenUrl(String longUrl) {
         // First, check if a mapping for this long URL already exists.
         List<UrlMapping> existingMappings = repository.findByLongUrl(longUrl);
         if (!existingMappings.isEmpty()) {
-            return existingMappings.getFirst().getShortCode();
+            return constructFullShortUrl(existingMappings.getFirst().getShortCode());
         }
 
         String shortCode;
@@ -47,7 +49,7 @@ public class UrlShortenerService {
         mapping.setCreatedAt(LocalDateTime.now());
         
         repository.save(mapping);
-        return shortCode;
+        return constructFullShortUrl(shortCode);
     }
 
     /**
@@ -84,5 +86,9 @@ public class UrlShortenerService {
     public UrlMapping getMappingByShortCode(String shortCode) {
         return repository.findByShortCode(shortCode)
                 .orElseThrow(() -> new UrlNotFoundException(AppConstants.URL_NOT_FOUND_FOR_CODE_MSG + shortCode));
+    }
+
+    private String constructFullShortUrl(String shortCode) {
+        return appProperties.getBaseUrl() + "/" + shortCode;
     }
 }
