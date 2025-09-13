@@ -65,7 +65,9 @@ public class UrlShortenerService {
         mapping.setClickCount(mapping.getClickCount() + 1);
         mapping.getUniqueVisitors().add(visitorId);
         String country = geoIpService.getCountry(visitorId);
-        mapping.getCountries().add(country);
+        if (!AppConstants.DEFAULT_COUNTRY_CODE.equals(country)) {
+            mapping.getCountries().add(country);
+        }
 
         repository.save(mapping);
         
