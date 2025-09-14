@@ -4,7 +4,6 @@ public class AppConstants {
     public static final String REDIRECT_TO_RESULT = "redirect:/result?shortCode=";
     public static final String INDEX_VIEW = "index";
     public static final String RESULT_VIEW = "result";
-    public static final String LOCAL_HOST_URL = "http://localhost:8080/";
     public static final String SHORT_URL_ATTR = "shortUrl";
     public static final String LONG_URL_ATTR = "longUrl";
     public static final String CLICK_COUNT_ATTR = "clickCount";

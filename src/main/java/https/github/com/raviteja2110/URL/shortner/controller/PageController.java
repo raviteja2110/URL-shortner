@@ -1,7 +1,6 @@
 package https.github.com.raviteja2110.url.shortner.controller;
 
 import com.google.zxing.WriterException;
-import https.github.com.raviteja2110.url.shortner.config.AppProperties;
 import https.github.com.raviteja2110.url.shortner.dto.UrlMapping;
 import https.github.com.raviteja2110.url.shortner.service.QrCodeService;
 import https.github.com.raviteja2110.url.shortner.service.UrlShortenerService;
@@ -23,12 +22,10 @@ public class PageController {
     private static final Logger logger = LoggerFactory.getLogger(PageController.class);
     private final UrlShortenerService urlShortenerService;
     private final QrCodeService qrCodeService;
-    private final AppProperties appProperties;
 
-    public PageController(UrlShortenerService urlShortenerService, QrCodeService qrCodeService, AppProperties appProperties) {
+    public PageController(UrlShortenerService urlShortenerService, QrCodeService qrCodeService) {
         this.urlShortenerService = urlShortenerService;
         this.qrCodeService = qrCodeService;
-        this.appProperties = appProperties;
     }
 
     /**
@@ -51,7 +48,7 @@ public class PageController {
     @GetMapping("/result")
     public String resultPage(@RequestParam String shortCode, Model model) {
         UrlMapping mapping = urlShortenerService.getMappingByShortCode(shortCode);
-        String shortUrl = appProperties.getBaseUrl() + "/" + mapping.getShortCode();
+        String shortUrl = urlShortenerService.getFullShortUrl(mapping.getShortCode());
 
         model.addAttribute(AppConstants.SHORT_URL_ATTR, shortUrl);
         model.addAttribute(AppConstants.LONG_URL_ATTR, mapping.getLongUrl());
@@ -61,14 +58,15 @@ public class PageController {
         model.addAttribute(AppConstants.UNIQUE_VISITORS_ATTR, mapping.getUniqueVisitors().size());
         model.addAttribute(AppConstants.COUNTRIES_ATTR, mapping.getCountries().size());
 
+        String qrCodeImage = ""; // Initialize to empty string to prevent nulls
         // Generate and pass QR code image data
         try {
-            String qrCodeImage = qrCodeService.generateQrCodeImage(shortUrl);
-            model.addAttribute(AppConstants.QR_CODE_ATTR, qrCodeImage);
+            qrCodeImage = qrCodeService.generateQrCodeImage(shortUrl);
         } catch (WriterException | IOException e) {
             logger.error("Failed to generate QR code for URL: {}", shortUrl, e);
-            model.addAttribute(AppConstants.QR_CODE_ATTR, ""); // Pass empty string on failure
+            // qrCodeImage remains an empty string
         }
+        model.addAttribute(AppConstants.QR_CODE_ATTR, qrCodeImage);
 
         return AppConstants.RESULT_VIEW;
     }

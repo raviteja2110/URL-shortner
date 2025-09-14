@@ -88,6 +88,16 @@ public class UrlShortenerService {
                 .orElseThrow(() -> new UrlNotFoundException(AppConstants.URL_NOT_FOUND_FOR_CODE_MSG + shortCode));
     }
 
+    /**
+     * Constructs the full short URL from a short code.
+     *
+     * @param shortCode The short code.
+     * @return The full, publicly accessible short URL.
+     */
+    public String getFullShortUrl(String shortCode) {
+        return constructFullShortUrl(shortCode);
+    }
+
     private String constructFullShortUrl(String shortCode) {
         return appProperties.getBaseUrl() + "/" + shortCode;
     }
