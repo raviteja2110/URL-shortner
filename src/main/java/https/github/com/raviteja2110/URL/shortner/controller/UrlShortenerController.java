@@ -32,10 +32,28 @@ public class UrlShortenerController {
 
     @GetMapping("/{shortCode}")
     public RedirectView redirect(@PathVariable String shortCode, HttpServletRequest request) {
-        String visitorIp = request.getRemoteAddr();
+        String visitorIp = getClientIp(request);
         String originalUrl = urlShortenerService.getOriginalUrl(shortCode, visitorIp);
         RedirectView redirectView = new RedirectView();
         redirectView.setUrl(originalUrl);
         return redirectView;
+    }
+
+    /**
+     * Extracts the client's real IP address from the request, checking for common proxy headers first.
+     * This is crucial for accurate geolocation when deployed behind a reverse proxy (e.g., on Render).
+     *
+     * @param request The incoming HTTP request.
+     * @return The client's IP address.
+     */
+    private String getClientIp(HttpServletRequest request) {
+        String ipAddress = request.getHeader("X-Forwarded-For");
+        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("Proxy-Client-IP");
+        }
+        if (ipAddress == null || ipAddress.isEmpty() || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getRemoteAddr();
+        }
+        return ipAddress.split(",")[0].trim();
     }
 }

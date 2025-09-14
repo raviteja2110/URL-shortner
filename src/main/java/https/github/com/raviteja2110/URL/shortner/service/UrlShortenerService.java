@@ -19,7 +19,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UrlShortenerService {
     private final UrlMappingRepository repository;
-    private final GeoIpService geoIpService;
     private final AppProperties appProperties;
     private static final int SHORT_CODE_LENGTH = 6;
 
@@ -66,10 +65,6 @@ public class UrlShortenerService {
         
         mapping.setClickCount(mapping.getClickCount() + 1);
         mapping.getUniqueVisitors().add(visitorId);
-        String country = geoIpService.getCountry(visitorId);
-        if (!AppConstants.DEFAULT_COUNTRY_CODE.equals(country)) {
-            mapping.getCountries().add(country);
-        }
 
         repository.save(mapping);
         

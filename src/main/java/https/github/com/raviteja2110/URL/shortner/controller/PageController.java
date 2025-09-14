@@ -56,7 +56,6 @@ public class PageController {
         // Pass analytics data to the view
         model.addAttribute(AppConstants.CLICK_COUNT_ATTR, mapping.getClickCount());
         model.addAttribute(AppConstants.UNIQUE_VISITORS_ATTR, mapping.getUniqueVisitors().size());
-        model.addAttribute(AppConstants.COUNTRIES_ATTR, mapping.getCountries().size());
 
         String qrCodeImage = ""; // Initialize to empty string to prevent nulls
         // Generate and pass QR code image data

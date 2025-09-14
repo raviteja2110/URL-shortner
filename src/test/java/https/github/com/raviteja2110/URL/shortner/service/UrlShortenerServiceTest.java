@@ -25,9 +25,6 @@ class UrlShortenerServiceTest {
     private UrlMappingRepository repository;
 
     @Mock
-    private GeoIpService geoIpService;
-
-    @Mock
     private AppProperties appProperties;
 
     @InjectMocks
@@ -36,11 +33,6 @@ class UrlShortenerServiceTest {
     private final String longUrl = "https://example.com/a-very-long-url";
     private final String shortCode = "aBcDeF";
     private final String baseUrl = "http://localhost:8080";
-
-    @BeforeEach
-    void setUp() {
-        // Stubbing moved to individual tests to avoid UnnecessaryStubbingException.
-    }
 
     @Test
     void shortenUrl_whenUrlExists_shouldReturnExistingShortUrl() {
@@ -79,14 +71,12 @@ class UrlShortenerServiceTest {
         mapping.setShortCode(shortCode);
 
         when(repository.findByShortCode(shortCode)).thenReturn(Optional.of(mapping));
-        when(geoIpService.getCountry(anyString())).thenReturn("US");
 
         String result = urlShortenerService.getOriginalUrl(shortCode, "127.0.0.1");
 
         assertEquals(longUrl, result);
         assertEquals(1, mapping.getClickCount());
         assertTrue(mapping.getUniqueVisitors().contains("127.0.0.1"));
-        assertTrue(mapping.getCountries().contains("US"));
         verify(repository, times(1)).save(mapping);
     }
 

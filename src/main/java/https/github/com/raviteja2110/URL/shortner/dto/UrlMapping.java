@@ -36,7 +36,4 @@ public class UrlMapping {
 
     /** A set of unique visitor IP addresses to track unique clicks. */
     private Set<String> uniqueVisitors = new HashSet<>();
-
-    /** A set of country codes from which clicks have originated. */
-    private Set<String> countries = new HashSet<>();
 }
