@@ -24,7 +24,9 @@ public class UrlShortenerController {
 
     @PostMapping("/shorten")
     public String shortenUrl(@RequestParam("longUrl") String longUrl) {
-        String shortCode = urlShortenerService.shortenUrl(longUrl);
+        String fullShortUrl = urlShortenerService.shortenUrl(longUrl);
+        // Extract only the short code from the full URL for the redirect parameter.
+        String shortCode = fullShortUrl.substring(fullShortUrl.lastIndexOf('/') + 1);
         return AppConstants.REDIRECT_TO_RESULT + shortCode;
     }
 
