@@ -6,10 +6,6 @@ services:
     dockerfilePath: ./Dockerfile
     envVars:
       - key: PORT
-        value: 8080
-      - key: APP_BASE_URL
-        fromSecret: true
-      - key: MONGO_DB_URI
-        # This secret should contain the full MongoDB URI, including the database name.
-        # e.g., mongodb+srv://user:pass@cluster.mongodb.net/my-database?retryWrites=true...
-        fromSecret: true
+        value: 8080 # This is safe to keep here.
+    # NOTE: MONGO_DB_URI and APP_BASE_URL should be set in the Render Dashboard
+    # under the 'Environment' tab for this service.
