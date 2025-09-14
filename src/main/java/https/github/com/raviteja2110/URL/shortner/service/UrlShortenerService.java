@@ -10,7 +10,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Optional;
 
 /**
  * Service class containing the core business logic for URL shortening and analytics.
@@ -32,9 +32,9 @@ public class UrlShortenerService {
      */
     public String shortenUrl(String longUrl) {
         // First, check if a mapping for this long URL already exists.
-        List<UrlMapping> existingMappings = repository.findByLongUrl(longUrl);
-        if (!existingMappings.isEmpty()) {
-            return constructFullShortUrl(existingMappings.getFirst().getShortCode());
+        Optional<UrlMapping> existingMapping = repository.findByLongUrl(longUrl);
+        if (existingMapping.isPresent()) {
+            return constructFullShortUrl(existingMapping.get().getShortCode());
         }
 
         String shortCode;
